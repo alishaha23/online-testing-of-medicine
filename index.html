@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="mb-1">Medicine quality monitoring</h1>
+<p class="text-muted">Record sample measurements and review screening history.</p>
+<div class="row g-3 my-3">
+  <div class="col-md-6"><div class="card stat-card"><div class="card-body"><div class="text-muted">Total tests recorded</div><div class="display-6">{{ total }}</div></div></div></div>
+  <div class="col-md-6"><div class="card stat-card"><div class="card-body"><div class="text-muted">Flagged for laboratory review</div><div class="display-6">{{ flagged }}</div></div></div></div>
+</div>
+<a class="btn btn-primary" href="{{ url_for('test_medicine') }}">Enter a medicine sample</a>
+<h2 class="h4 mt-4">Recent tests</h2>
+{% if recent %}
+<div class="table-responsive"><table class="table table-striped">
+<thead><tr><th>Medicine</th><th>Batch</th><th>Screening result</th><th></th></tr></thead>
+<tbody>{% for row in recent %}
+<tr><td>{{ row.medicine_name }}</td><td>{{ row.batch_number }}</td><td>{{ row.result }}</td><td><a href="{{ url_for('result', test_id=row.id) }}">View</a></td></tr>
+{% endfor %}</tbody></table></div>
+{% else %}<p>No tests yet. Add your first sample.</p>{% endif %}
+{% endblock %}
